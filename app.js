@@ -1,6 +1,7 @@
 import express from 'express';
 import authRoute from './routes/authRoutes.js';
 import { passport, authenticate } from './utils/passport.js';
+import messageRoute from './routes/messageRoutes.js';
 
 
 const app = express();
@@ -9,6 +10,8 @@ app.use(passport.initialize());
 app.use(express.json());
 
 app.use('/api/auth', authRoute);
+
+app.use('/api/messages', authenticate, messageRoute);
 
 app.get('/api/protected', authenticate, (req, res) => {
     res.status(200).json({ message: 'You accessed a protected route!', user: req.user });
